@@ -19,7 +19,7 @@ const TelegramBotComponent: React.FC = () => {
   const fetchUsers = () => 
   {
     axios
-      .get("http://localhost:3000/users")
+      .get(`${process.env.REACT_APP_MAIN_SERVER_URL}/users`)
       .then((response) => setUsers(response.data))
       .catch((error) => console.error("Error fetching users:", error));
   };
@@ -34,7 +34,7 @@ const TelegramBotComponent: React.FC = () => {
   // Function to fetch chat history
   const fetchChatHistory = (userId: number) => {
     axios
-      .get(`http://localhost:3000/chat-history/${userId}`)
+      .get(`${process.env.REACT_APP_MAIN_SERVER_URL}/chat-history/${userId}`)
       .then((response) => setChatHistory(response.data))
       .catch((error) => console.error("Error fetching chat history:", error));
   };
@@ -44,7 +44,7 @@ const TelegramBotComponent: React.FC = () => {
     if (!message.trim() || !selectedUser) return;
 
     axios
-      .post("http://localhost:3000/send-message", {
+      .post(`${process.env.REACT_APP_MAIN_SERVER_URL}/send-message`, {
         userId: selectedUser.id,
         message,
       })
@@ -60,7 +60,7 @@ const TelegramBotComponent: React.FC = () => {
 
   // Connect to WebSocket for real-time notifications
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:3001");
+    const ws = new WebSocket(`${process.env.REACT_APP_WEBSOCKET_URL}`);
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);

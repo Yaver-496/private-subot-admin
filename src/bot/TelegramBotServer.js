@@ -12,7 +12,7 @@ const app = express();
 
 
 // List of allowed origins
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = ["http://localhost:5173", "https://private-subot-admin.onrender.com/", "http://localhost:4173/"];
 
 // Custom CORS configuration
 app.use(cors({

@@ -4,8 +4,8 @@ import cors from "cors";
 import { WebSocketServer } from "ws";
 
 const BOT_TOKEN = process.env.REACT_APP_BOT_TOKEN;
-const PORT = process.env.REACT_APP_PORT || 4000;
-const WS_PORT = process.env.REACT_APP_WS_PORT || 4001;
+const PORT = process.env.REACT_APP_PORT || 3000;
+const WS_PORT = process.env.REACT_APP_WS_PORT || 3001;
 
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 const app = express();
@@ -68,7 +68,16 @@ bot.onText(/\/start/, (msg) => {
   }
 
   bot.sendMessage(userId, "Welcome! You're now registered. 🚀");
+
+  // Notify via WebSocket
+  sendNotification({
+    type: "new_user",
+    userId,
+    username: msg.chat.username || `User ${userId}`,
+    message: "/start",
+  });
 });
+
 
 // Store incoming messages and notify admin
 bot.on("message", (msg) => {
@@ -128,4 +137,3 @@ app.get("/chat-history/:userId", (req, res) => {
 app.listen(PORT, () => {
   console.log(`HTTP Server running on http://localhost:${PORT}`);
 });
-console.log(`WebSocket Server running on ws://localhost:${WS_PORT}`);

@@ -13,11 +13,16 @@ const TelegramBotComponent: React.FC = () => {
 
   // Fetch users
   useEffect(() => {
+     fetchUsers();
+  }, []);
+
+  const fetchUsers = () => 
+  {
     axios
-      .get("https://private-subot-admin.onrender.com/users")
+      .get("http://localhost:3000/users")
       .then((response) => setUsers(response.data))
       .catch((error) => console.error("Error fetching users:", error));
-  }, []);
+  };
 
   // Fetch chat history when user is selected
   useEffect(() => {
@@ -29,7 +34,7 @@ const TelegramBotComponent: React.FC = () => {
   // Function to fetch chat history
   const fetchChatHistory = (userId: number) => {
     axios
-      .get(`https://private-subot-admin.onrender.com/chat-history/${userId}`)
+      .get(`http://localhost:3000/chat-history/${userId}`)
       .then((response) => setChatHistory(response.data))
       .catch((error) => console.error("Error fetching chat history:", error));
   };
@@ -39,7 +44,7 @@ const TelegramBotComponent: React.FC = () => {
     if (!message.trim() || !selectedUser) return;
 
     axios
-      .post("https://private-subot-admin.onrender.com/send-message", {
+      .post("http://localhost:3000/send-message", {
         userId: selectedUser.id,
         message,
       })
@@ -55,7 +60,7 @@ const TelegramBotComponent: React.FC = () => {
 
   // Connect to WebSocket for real-time notifications
   useEffect(() => {
-    const ws = new WebSocket("ws://private-subot-admin.onrender.com");
+    const ws = new WebSocket("ws://localhost:3001");
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -70,6 +75,15 @@ const TelegramBotComponent: React.FC = () => {
         if (selectedUser && selectedUser.id === data.userId) {
           fetchChatHistory(data.userId);
         }
+      }
+
+      if(data.type === 'new_user') {
+         fetchUsers();
+
+         setNotifications((prev) => [
+          ...prev,
+          `New user joined ${data.username || `User ${data.userId}`}`,
+        ]);
       }
     };
 

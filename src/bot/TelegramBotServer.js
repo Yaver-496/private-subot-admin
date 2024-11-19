@@ -4,15 +4,15 @@ import cors from "cors";
 import { WebSocketServer } from "ws";
 
 const BOT_TOKEN = process.env.REACT_APP_BOT_TOKEN;
-const PORT = process.env.REACT_APP_PORT || 3000;
-const WS_PORT = process.env.REACT_APP_WS_PORT || 3001;
+const PORT = process.env.REACT_APP_PORT || 4000;
+const WS_PORT = process.env.REACT_APP_WS_PORT || 4001;
 
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 const app = express();
 
 
 // List of allowed origins
-const allowedOrigins = ["http://localhost:5173", "https://private-subot-admin.onrender.com/", "http://localhost:4173/"];
+const allowedOrigins = ["http://localhost:5173", "https://private-subot-admin.onrender.com", "http://localhost:4173"];
 
 // Custom CORS configuration
 app.use(cors({

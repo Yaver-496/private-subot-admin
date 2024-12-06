@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+./src
+./public
+./gitignore
+./eslint.config.js
+index.html

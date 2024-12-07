@@ -9,7 +9,7 @@ import { getMockData } from './mockDataMaker';
 
 export function useTelegramWebApp() {
   const [isReady, setIsReady] = useState(false);
-  const [telegramUserID, setTelegramUserID] = useState<number>(1926652104);
+  const [telegramUserID, setTelegramUserID] = useState<number>(0);
   const [mockData, setMockdata] = useState<IData>();
 
   const { isPending, error, data} = useQuery({

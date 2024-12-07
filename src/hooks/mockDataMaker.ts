@@ -44,11 +44,12 @@ export function fillEmptySubscribers(channel: IChannel, addCount: number) : stri
     for (let index = startIndex; index < endIndex; index++) {
 
         const expireDate = calculateExpireDate(`${getRandomOf(10)} days`).getTime().toString();
+        const randomRole = getRandomRole() as 'admin' | 'subscriber' | 'banned';
 
         const emptySub: IMember = {
             id: index,
             enddate: expireDate,
-            role: getRandomRole(),
+            role: randomRole,
             startdate: Date.now().toString(),
             substate: 'active',
             username: `User-#${index}`
@@ -71,9 +72,9 @@ export function fillEmptySubscribers(channel: IChannel, addCount: number) : stri
 
   const roles = ['admin', 'subscriber', 'banned'];
   const roleWeights = {
-      'admin': 0.5,      // 5%
+      'admin': 0.03,      // 5%
       'subscriber': 0.60, // 60%
-      'banned': 0.35      // 35%
+      'banned': 0.37      // 35%
   };
 
   function getWeightOfRole(role: string) : number{

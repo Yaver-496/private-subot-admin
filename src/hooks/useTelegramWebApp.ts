@@ -3,15 +3,27 @@ import { useEffect, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
 import useGetDataFromServer from './useGetDataFromServer';
 import { useQuery } from '@tanstack/react-query';
+import { getMockData } from './mockDataMaker';
+
+
 
 export function useTelegramWebApp() {
   const [isReady, setIsReady] = useState(false);
   const [telegramUserID, setTelegramUserID] = useState<number>(1926652104);
+  const [mockData, setMockdata] = useState<IData>();
 
   const { isPending, error, data} = useQuery({
       queryKey: ['getData'],
-      queryFn: async () => await useGetDataFromServer(telegramUserID)
-  })
+      queryFn: async () => await useGetDataFromServer(telegramUserID),
+  });
+
+  useEffect(() => 
+  {
+    if(mockData === undefined){
+      const _mockData = getMockData();
+      setMockdata(_mockData);
+    }
+  }, []);
 
   useEffect(() => 
   {
@@ -99,7 +111,7 @@ export function useTelegramWebApp() {
     user: WebApp.initDataUnsafe?.user,
     themeParams: WebApp.themeParams,
     colorScheme: WebApp.colorScheme,
-    userData: data && data
+    userData: data ? data : mockData!!
   };
 }
 

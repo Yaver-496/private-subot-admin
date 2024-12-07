@@ -11,17 +11,9 @@ import { PlansPage } from './pages/PlansPage';
 import { MoneyPage } from './pages/MoneyPage';
 import type { IData, IMember, SubscriptionPlan } from './types';
 
-const mockData: IData = {  
-  id: 0,
-  channels: [],
-  language_code: '',
-  username: 'username',
-  subscriptionPlans: []
-}
-
 function App() {
   const { isDataPending, isReady, userData } = useTelegramWebApp();
-  const [data, setData] = React.useState<IData>(userData ? userData : mockData);
+  const [data, setData] = React.useState<IData>(userData);
   
   useEffect(() => {
 
@@ -61,42 +53,6 @@ function App() {
     }));
   };
 
-  // const handleBulkUpdateRoles = (userIds: string[], role: 'admin' | 'subscriber') => {
-  //   setData(prev => ({
-  //     ...prev,
-  //     users: prev.users.map(user =>
-  //       userIds.includes(user.id) ? { ...user, role } : user
-  //     )
-  //   }));
-  // };
-
-  // const handleAddPlan = (plan: Omit<SubscriptionPlan, 'id'>) => {
-  //   const newPlan = {
-  //     ...plan,
-  //     id: String(data.subscriptionPlans.length + 1),
-  //   };
-  //   setData(prev => ({
-  //     ...prev,
-  //     subscriptionPlans: [...prev.subscriptionPlans, newPlan]
-  //   }));
-  // };
-
-  // const handleUpdatePlan = (id: string, updatedPlan: Omit<SubscriptionPlan, 'id'>) => {
-  //   setData(prev => ({
-  //     ...prev,
-  //     subscriptionPlans: prev.subscriptionPlans.map(plan =>
-  //       plan.id === id ? { ...updatedPlan, id } : plan
-  //     )
-  //   }));
-  // };
-
-  // const handleDeletePlan = (id: string) => {
-  //   setData(prev => ({
-  //     ...prev,
-  //     subscriptionPlans: prev.subscriptionPlans.filter(plan => plan.id !== id)
-  //   }));
-  // };
-
   if(isDataPending) {
     return <h1 className='text-3xl text-center my-8 font-bold text-gray-400'>Loading...</h1>
   }
@@ -108,7 +64,7 @@ function App() {
   return (
     <TonConnectUIProvider manifestUrl="https://yaver-496.github.io/IA-Entertainment-Dapp/tonconnect-manifest.json">
       <BrowserRouter>
-        {/* <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-16 dark:text-white"> */}
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-16 dark:text-white">
           <Routes>
             <Route path="/" element={
               <>
@@ -129,13 +85,7 @@ function App() {
             } />
             <Route path="/plans" element={
               <>
-                {/* <MobileHeader title="Subscription Plans" username={null} />
-                <PlansPage
-                  data={data}
-                  onAddPlan={handleAddPlan}
-                  onUpdatePlan={handleUpdatePlan}
-                  onDeletePlan={handleDeletePlan}
-                /> */}
+                <MobileHeader title="Subscription Plans" username={null} />
               </>
             } />
             <Route path="/money" element={
@@ -146,7 +96,7 @@ function App() {
             } />
           </Routes>
           <BottomNav />
-        {/* </div> */}
+        </div>
       </BrowserRouter>
     </TonConnectUIProvider>
   );
